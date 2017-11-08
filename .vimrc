@@ -11,24 +11,23 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
+
+Plugin 'vim-scripts/indentpython.vim' " Automatic indentation
+" Auto completion
+Bundle 'Valloric/YouCompleteMe'
+Plugin 'vim-syntastic/syntastic' " Syntax Checker
+Plugin 'scrooloose/nerdtree' " File system tree
+Plugin 'Xuyuanp/nerdtree-git-plugin' " Nerdtree added git plugin
+Plugin 'vim-airline/vim-airline' " status line at bottom
+Plugin 'scrooloose/nerdcommenter' " easy commenter
+Plugin 'jalvesaq/Nvim-R' " very useful R plugin
+Plugin 'bitc/vim-bad-whitespace' " checks for bad whitespace
+
+" Colors
 Plugin 'altercation/Vim-colors-solarized'
 Plugin 'jnurmine/Zenburn'
 Plugin 'joshdick/onedark.vim'
-Plugin 'vim-scripts/indentpython.vim'
-Bundle 'Valloric/YouCompleteMe'
-Plugin 'scrooloose/syntastic'
-Plugin 'nvie/vim-flake8'
-Plugin 'scrooloose/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'vim-airline/vim-airline'
-Plugin 'scrooloose/nerdcommenter'
 Plugin 'beigebrucewayne/Turtles'
-Plugin 'jalvesaq/Nvim-R'
-Plugin 'bitc/vim-bad-whitespace'
-"Plugin 'vim-syntastic/syntastic'
-"Plugin 'davidhalter/jedi-vim'
-
-
 " Add all your plugins here (note older versions of Vundle used Bundle instead of Plugin)
 
 
@@ -40,6 +39,7 @@ filetype plugin indent on    " required
 let mapleader = "," " first key for customization
 let maplocalleader = ";" " what's the difference ?
 set showcmd   " helps to show the command
+set wildmenu " shows the list of available commands
 set number    " Show line numbers
 set linebreak    " Break lines at word (requires Wrap lines)
 set showbreak=+++    " Wrap-broken line prefix
@@ -73,15 +73,15 @@ set backspace=indent,eol,start    " Backspace behaviour
 set splitbelow "change vim default split
 set splitright
 
-au InsertLeave * call cursor([getpos('.')[1], getpos('.')[2]+1]) "coming back to normal mode, set the cursor in pos+1
+"au InsertLeave * call cursor([getpos('.')[1], getpos('.')[2]+1]) "coming back to normal mode, set the cursor in pos+1
 								 " might be better to use a instead
 								 " of i
 " put two parenthesis when writing one
-
-inoremap ( ()<Esc>i
-inoremap [ []<Esc>i
-inoremap { {}<Esc>i
-
+"
+"inoremap ( ()<Esc>i
+"inoremap [ []<Esc>i
+"inoremap { {}<Esc>i
+"
 
 " Map of keys
 " Disable directions
@@ -102,6 +102,16 @@ nnoremap <C-H> <C-W><C-H>
 let g:ScreenImpl = 'Tmux'
 let vimrplugin_screenvsplit = 1 " For vertical tmux split
 let g:ScreenShellInitialFocus = 'shell'
+
+" Syntastic setup
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 " YouCompleteMe
 let g:ycm_autoclose_preview_window_after_completion=1
@@ -124,6 +134,7 @@ au BufNewFile,BufRead *.r
     \let R_args_in_stline = 1|
     \let R_sttline_fmt = "%#Function#%fun%#Delimiter#(%#Normal#%args%#Delimiter#)"|
     \let R_nvim_wd = 1
+
 " PYTHON CONFIG
 " enable syntax highlighting
 syntax enable
@@ -136,9 +147,6 @@ au BufNewFile,BufRead *.py
     \set expandtab | " expand tabs into spaces
     \set autoindent| " indent when moving to the next line while writing code
     \set fileformat=unix
-
-
-
 
 " python with virtualenv support
 py << EOF
@@ -153,8 +161,6 @@ EOF
 " enable all Python syntax highlighting features
 let python_highlight_all = 1
 syntax on
-
-
 
 " au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match ExtraWhitespace /\s\+$/
 
