@@ -13,6 +13,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 Plugin 'vim-scripts/indentpython.vim' " Automatic indentation
+Plugin 'ivanov/vim-ipython' " Python integration
 " Auto completion
 Bundle 'Valloric/YouCompleteMe'
 Plugin 'vim-syntastic/syntastic' " Syntax Checker
