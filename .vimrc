@@ -1,173 +1,80 @@
-" Vundle
-set nocompatible              " required
-filetype off                  " required
+" Set 'nocompatible' to ward off unexpected things that your distro might
+" have made, as well as sanely reset options when re-sourcing .vimrc
+set nocompatible
+ 
+" Attempt to determine the type of a file based on its name and possibly its
+" contents. Use this to allow intelligent auto-indenting for each filetype,
+" and for plugins that are filetype specific.
+filetype indent plugin on
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-
-Plugin 'vim-scripts/indentpython.vim' " Automatic indentation
-Plugin 'ivanov/vim-ipython' " Python integration
-" Auto completion
-Bundle 'Valloric/YouCompleteMe'
-Plugin 'vim-syntastic/syntastic' " Syntax Checker
-Plugin 'scrooloose/nerdtree' " File system tree
-Plugin 'Xuyuanp/nerdtree-git-plugin' " Nerdtree added git plugin
-Plugin 'vim-airline/vim-airline' " status line at bottom
-Plugin 'scrooloose/nerdcommenter' " easy commenter
-Plugin 'jalvesaq/Nvim-R' " very useful R plugin
-Plugin 'bitc/vim-bad-whitespace' " checks for bad whitespace
-
-" Colors
-Plugin 'altercation/Vim-colors-solarized'
-Plugin 'jnurmine/Zenburn'
-Plugin 'joshdick/onedark.vim'
-Plugin 'beigebrucewayne/Turtles'
-" Add all your plugins here (note older versions of Vundle used Bundle instead of Plugin)
-
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-
-" General
-let mapleader = "," " first key for customization
-let maplocalleader = ";" " what's the difference ?
-set showcmd   " helps to show the command
-set wildmenu " shows the list of available commands
-set number    " Show line numbers
-set linebreak    " Break lines at word (requires Wrap lines)
-set showbreak=+++    " Wrap-broken line prefix
-set textwidth=100    " Line wrap (number of cols)
-set showmatch    " Highlight matching brace
-set visualbell    " Use visual bell (no beeping)
-
-set hlsearch    " Highlight all search results
-set smartcase    " Enable smart-case search
-set incsearch    " Searches for strings incrementally
-set magic       " for regex
-
-set autoindent    " Auto-indent new lines
-set shiftwidth=4    " Number of auto-indent spaces
-set smartindent    " Enable smart-indent
-set smarttab    " Enable smart-tabs
-set softtabstop=4    " Number of spaces per Tab
-set autoread        " detect changes from the outside
-set so=4            "let some space when moving vertically
-set foldcolumn=1    " let a margin on the teft
-
-set cursorline " show a visual line under the cursor's current line
-set encoding=utf-8
-
-" Advanced
-set ruler    " Show row and column ruler information
-
-set undolevels=1000    " Number of undo levels
-set backspace=indent,eol,start    " Backspace behaviour
-
-set splitbelow "change vim default split
-set splitright
-
-"au InsertLeave * call cursor([getpos('.')[1], getpos('.')[2]+1]) "coming back to normal mode, set the cursor in pos+1
-								 " might be better to use a instead
-								 " of i
-" put two parenthesis when writing one
-"
-"inoremap ( ()<Esc>i
-"inoremap [ []<Esc>i
-"inoremap { {}<Esc>i
-"
-
-" Map of keys
-" Disable directions
-nnoremap <up>    <nop>
-nnoremap <down>  <nop>
-nnoremap <left>  <nop>
-nnoremap <right> <nop>
-inoremap <up>    <nop>
-inoremap <down>  <nop>
-inoremap <left>  <nop>
-inoremap <right> <nop>
-nnoremap <C-J> <C-W><C-J> "to navigate between split panes
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-
-" For tmux support
-let g:ScreenImpl = 'Tmux'
-let vimrplugin_screenvsplit = 1 " For vertical tmux split
-let g:ScreenShellInitialFocus = 'shell'
-
-" Syntastic setup
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-" YouCompleteMe
-let g:ycm_autoclose_preview_window_after_completion=1
-let g:ycm_python_binary_path = '/Library/Frameworks/Python.framework/Versions/3.3/bin/python3'
-map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-" NerdTree
-" autocmd vimenter * NERDTree
-map <leader>z :NERDTreeToggle <CR>
-
-" Nerd Commenter
-let g:NERDCommentEmptyLines = 1 " Allow commenting and inverting empty lines (useful when commenting a region)
-let g:NERDDefaultAlign = 'left' " Align line-wise comment delimiters flush left instead of following code indentation
-let g:NERDCompactSexyComs = 1 " Use compact syntax for prettified multi-line comments
-
-" R config
-au BufNewFile,BufRead *.r
-    \let R_notmuxconf = 1|
-    \let R_listmethods = 1|
-    \let R_specialplot = 1|
-    \let R_args_in_stline = 1|
-    \let R_sttline_fmt = "%#Function#%fun%#Delimiter#(%#Normal#%args%#Delimiter#)"|
-    \let R_nvim_wd = 1
-
-" PYTHON CONFIG
-" enable syntax highlighting
-syntax enable
-
-au BufNewFile,BufRead *.py
-    \set tabstop=4  | " set tabs to have 4 spaces
-    \set softtabstop=4 |
-    \set shiftwidth=4| " when using the >> or << commands, shift lines by 4 spaces
-    \set textwidth=79  |
-    \set expandtab | " expand tabs into spaces
-    \set autoindent| " indent when moving to the next line while writing code
-    \set fileformat=unix
-
-" python with virtualenv support
-py << EOF
-import os
-import sys
-if 'VIRTUAL_ENV' in os.environ:
-    project_base_dir = os.environ['VIRTUAL_ENV']
-    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-    execfile(activate_this, dict(__file__=activate_this))
-EOF
-
-" enable all Python syntax highlighting features
-let python_highlight_all = 1
+" Enable syntax highlighting
 syntax on
 
-" au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match ExtraWhitespace /\s\+$/
+" Setting utf8 encoding
+set encoding=utf-8
 
-" COLORS
-set t_Co=256
-let g:solarized_termcolors=256
-set background=dark
-" colorscheme zenburn
-colorscheme solarized
+" Enabling relative number
+set relativenumber
+set nu rnu
+
+" Allows you to re-use the same
+" window and switch from an unsaved buffer without saving it first. Also
+" allows you to keep an undo history for multiple files when re-using the same
+" window in this way.
+set hidden
+
+" Better command-line completion
+set wildmenu
+
+" Show partial commands in the last line of the screen
+set showcmd
+
+" Highlight searches (use <C-L> to temporarily turn off highlighting; see the
+" mapping of <C-L> below)
+set hlsearch
+
+" Use case insensitive search, except when using capital letters
+set ignorecase
+set smartcase
+
+" Allow backspacing over autoindent, line breaks and start of insert action
+set backspace=indent,eol,start
+
+" When opening a new line and no filetype-specific indenting is enabled, keep
+" the same indent as the line you're currently on. Useful for READMEs, etc.
+set autoindent
+
+" Display the cursor position on the last line of the screen or in the status
+" line of a window
+set ruler
+
+" Always display the status line, even if only one window is displayed
+set laststatus=2
+
+" Use <F11> to toggle between 'paste' and 'nopaste'
+set pastetoggle=<F11>
+
+" Indentation settings for using 4 spaces instead of tabs.
+" Do not change 'tabstop' from its default value of 8 with this setup.
+set shiftwidth=2
+set softtabstop=2
+set expandtab
+
+" Y is now copy until end of line
+map Y y$
+
+" Map <C-L> (redraw screen) to also turn off search highlighting until the
+" next search
+nnoremap <C-L> :nohl<CR><C-L>
+
+" Copy paste from system clipboard
+" First check with :version if xterm_clipboard or clipboard is set to + 
+" if not (set to - ) it will not work 
+" vnoremap <C-c> "+y
+" map <C-p> "+p
+
+" Setting background to dark 
+set background=light
+
+" Setting makeup
+colorscheme peachpuff 
