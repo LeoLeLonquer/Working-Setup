@@ -14,8 +14,8 @@ syntax on
 set encoding=utf-8
 
 " Enabling relative number
-set relativenumber
-set nu rnu
+" set relativenumber
+" set nu rnu
 
 " Allows you to re-use the same
 " window and switch from an unsaved buffer without saving it first. Also
