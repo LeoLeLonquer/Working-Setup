@@ -125,3 +125,6 @@ cap () { tee /tmp/capture.out; }
 
 # return the output of the most recent command that was captured by cap
 ret () { cat /tmp/capture.out; }
+
+# remove successive identical lines
+export HISTCONTROL=ignoredups
