@@ -82,6 +82,30 @@ alias historynl="history | cut -d' ' -f4-"
 
 alias vi="vim"
 
+# Create folder ./backup and move the argument file into it with a timestamp
+# ex : backup bonjour.sh
+# ==> mv bonjour.sh backup/bonjour_20220720_104714.sh
+backup () {
+  mkdir -p backup
+  filename=$(basename $1)
+  file_extension=${filename##*.}
+  final_file_extension=$([ ! -z "$file_extension" ] && echo ".${file_extension}" || echo "")
+  cp $1 backup/${filename%.*}_"$(date +"%Y%m%d_%H%M%S")"$final_file_extension
+}
+
+# Restore backup file to selected folder
+# ex : restore backup/bonjour_20220720_104714.sh .
+# cp -i backup/bonjour_20220720_104714.sh ./bonjour.sh
+restore () {
+  filename=$(basename $1)
+  filename_wo_extension=${filename%.*}
+  file_extension=${filename##*.}
+  final_file_extension=$([ ! -z "$file_extension" ] && echo ".${file_extension}" || echo "")
+  final_filename_wo_extension=$(echo $filename_wo_extension | sed -E 's/(.*)_[[:digit:]]{8}_[[:digit:]]{6}/\1/')
+  dest_folder=${2:-.}
+  cp -i $1 $dest_folder/${final_filename_wo_extension}${final_file_extension}
+}
+
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
