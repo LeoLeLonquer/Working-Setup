@@ -1,0 +1,11 @@
+[user]
+	email = leo.le.lonquer@ifremer.fr
+	name = Léo Le Lonquer
+[credential "https://gitlab.ifremer.fr"]
+	username = ll7aa35
+        helper = cache --timeout=14400
+
+[init]
+	defaultBranch = main
+[pull]
+	rebase = true
